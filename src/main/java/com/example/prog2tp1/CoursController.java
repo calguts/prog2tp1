@@ -1,14 +1,26 @@
 package com.example.prog2tp1;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
-public class CoursController {
+public abstract class CoursController implements Initializable {
 
-    public void onFermerButtonClick(ActionEvent actionEvent) {
-    }
+    private final ObservableList<CoursClasse> maListeCours = FXCollections.observableArrayList();
+
+
 
     public void onDeleteSelectedClick(ActionEvent actionEvent) {
+    }
+
+
+
+    public void onSelectNumSeances(ActionEvent actionEvent) {
+    }
+
+    public void onAjoutCoursClick(ActionEvent actionEvent) {
     }
 }

@@ -1,4 +1,6 @@
 package com.example.prog2tp1;
 
-public class HoraireController {
+import javafx.fxml.Initializable;
+
+public abstract class HoraireController  implements Initializable {
 }
