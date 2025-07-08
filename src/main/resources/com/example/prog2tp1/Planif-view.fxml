@@ -11,6 +11,7 @@
         <Insets bottom="20.0" left="20.0" right="20.0" top="20.0"/>
     </padding>
 
-    <Label fx:id="welcomeText"/>
-    <Button text="Hello!" onAction="#onHelloButtonClick"/>
+    <Label fx:id="welcomeText" text="Changer le texte pour expliquer comment fonctionne le programme"/>
+    <Button text="Gestion des cours" onAction="#onGestionButtonClick"/>
+    <Button text="Générer horaire!" onAction="#onGenHoraireButtonClick"/>
 </VBox>

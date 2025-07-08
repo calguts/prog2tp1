@@ -7,14 +7,14 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class Main extends Application {
     @Override
-    public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
+    public void start(Stage mainStage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Planif-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
-        stage.setScene(scene);
-        stage.show();
+        mainStage.setTitle("Planificateur d'horaires par Cal Gutiérre!");
+        mainStage.setScene(scene);
+        mainStage.show();
     }
 
     public static void main(String[] args) {
