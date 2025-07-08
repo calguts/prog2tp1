@@ -10,4 +10,50 @@
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.prog2tp1.CoursController"
             prefHeight="400.0" prefWidth="600.0">
+
+    <Button text="Effacer Cour Selectionné" onAction="#onDeleteSelectedClick"/>
+    <VBox xmlns:fx="http://javafx.com/fxml" spacing="10" padding="10">
+        <TableView fx:id="listeCours">
+            <columns>
+                <TableColumn fx:id="nameCours" text="Nom du Cours"/>
+                <TableColumn fx:id="nbCredits" text="Nombre de Crédits"/>
+                <TableColumn fx:id="dateDebut" text="Nombre de Crédits"/>
+                <TableColumn fx:id="dateFin" text="Nombre de Crédits"/>
+                <TableColumn fx:id="seance1" text="Seance #1"><columns>
+                    <TableColumn fx:id="jour1" text="Email" />
+                    <TableColumn fx:id="tempsDebut1" text="Heure de début"/>
+                    <TableColumn fx:id="tempsFin1" text="Heure de fin"/>
+                </columns></TableColumn>
+                <TableColumn fx:id="seance2" text="Seance #2"><columns>
+                    <TableColumn fx:id="jour2" text="Email" />
+                    <TableColumn fx:id="tempsDebut2" text="Heure de début"/>
+                    <TableColumn fx:id="tempsFin2" text="Heure de fin"/>
+                </columns></TableColumn>
+                <TableColumn fx:id="seance3" text="Seance #3"><columns>
+                    <TableColumn fx:id="jour3" text="Email" />
+                    <TableColumn fx:id="tempsDebut3" text="Heure de début"/>
+                    <TableColumn fx:id="tempsFin3" text="Heure de fin"/>
+                </columns></TableColumn>
+            </columns>
+        </TableView>
+
+        <HBox fx:id="ajouterCours">
+            <TextField fx:id="nomCoursAjout" maxWidth="150" promptText="Nom du cours"/>
+            <ChoiceBox></ChoiceBox>
+
+        </HBox>
+        <HBox fx:id="ajoutSeance1">
+
+
+        </HBox>
+        <HBox fx:id="ajoutSeance2">
+
+
+        </HBox>
+        <HBox fx:id="ajouterSeance3">
+
+
+        </HBox>
+    </VBox>
+
 </AnchorPane>
