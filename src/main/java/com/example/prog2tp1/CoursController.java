@@ -5,12 +5,198 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
+import javafx.scene.control.cell.ChoiceBoxTableCell;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.layout.HBox;
+import javafx.util.StringConverter;
+import javafx.util.converter.IntegerStringConverter;
+
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 
 public abstract class CoursController implements Initializable {
 
-    private final ObservableList<CoursClasse> maListeCours = FXCollections.observableArrayList();
+    @FXML private TableView<CoursViewModel> listeCours;
 
+    @FXML private TableColumn<CoursViewModel, String> nameCours;
+    @FXML private TableColumn<CoursViewModel, Integer> nbCredits;
+    @FXML private TableColumn<CoursViewModel, LocalDate> dateDebut;
+    @FXML private TableColumn<CoursViewModel, LocalDate> dateFin;
+
+    @FXML private TableColumn<CoursViewModel, DayOfWeek> jour1;
+    @FXML private TableColumn<CoursViewModel, LocalTime> tempsDebut1;
+    @FXML private TableColumn<CoursViewModel, LocalTime> tempsFin1;
+
+    @FXML private TableColumn<CoursViewModel, DayOfWeek> jour2;
+    @FXML private TableColumn<CoursViewModel, LocalTime> tempsDebut2;
+    @FXML private TableColumn<CoursViewModel, LocalTime> tempsFin2;
+
+    @FXML private TableColumn<CoursViewModel, DayOfWeek> jour3;
+    @FXML private TableColumn<CoursViewModel, LocalTime> tempsDebut3;
+    @FXML private TableColumn<CoursViewModel, LocalTime> tempsFin3;
+
+    @FXML private TextField nomCoursAjout;
+    @FXML private ComboBox<Integer> nbCreditsAjout;
+    @FXML private DatePicker dateDebutAjout;
+    @FXML private DatePicker dateFinAjout;
+    @FXML private ComboBox<Integer> nbSeances;
+
+    @FXML private ComboBox<DayOfWeek> jourSeances1Ajout;
+    @FXML private ComboBox<DayOfWeek> jourSeances2Ajout;
+    @FXML private ComboBox<DayOfWeek> jourSeances3Ajout;
+
+    @FXML private ComboBox<LocalTime> tempsDebutSeance1Ajout;
+    @FXML private ComboBox<LocalTime> tempsDebutSeance2Ajout;
+    @FXML private ComboBox<LocalTime> tempsDebutSeance3Ajout;
+
+    @FXML private ComboBox<LocalTime> tempsFinSeance1Ajout;
+    @FXML private ComboBox<LocalTime> tempsFinSeance2Ajout;
+    @FXML private ComboBox<LocalTime> tempsFinSeance3Ajout;
+
+    @FXML private HBox ajouterCours;
+    @FXML private HBox ajoutSeance1;
+    @FXML private HBox ajoutSeance2;
+    @FXML private HBox ajoutSeance3;
+
+
+
+    @FXML
+    private final ObservableList<CoursViewModel> maListeCours = FXCollections.observableArrayList();
+
+    @FXML
+    public void initialize() {
+        // Enable editing
+        listeCours.setEditable(true);
+
+        // === Setup Times (every 30 minutes) ===
+        ObservableList<LocalTime> horaires = FXCollections.observableArrayList();
+        for (int hour = 0; hour < 24; hour++) {
+            horaires.add(LocalTime.of(hour, 0));
+            horaires.add(LocalTime.of(hour, 30));
+        }
+
+        // === Bindings for Display ===
+        nameCours.setCellValueFactory(cell -> cell.getValue().nomCoursProperty());
+        nbCredits.setCellValueFactory(cell -> cell.getValue().nbCreditsProperty().asObject());
+        dateDebut.setCellValueFactory(cell -> cell.getValue().dateDebutCoursProperty());
+        dateFin.setCellValueFactory(cell -> cell.getValue().dateFinCoursProperty());
+
+        jour1.setCellValueFactory(cell -> cell.getValue().jour1Property());
+        tempsDebut1.setCellValueFactory(cell -> cell.getValue().debut1Property());
+        tempsFin1.setCellValueFactory(cell -> cell.getValue().fin1Property());
+
+        jour2.setCellValueFactory(cell -> cell.getValue().jour2Property());
+        tempsDebut2.setCellValueFactory(cell -> cell.getValue().debut2Property());
+        tempsFin2.setCellValueFactory(cell -> cell.getValue().fin2Property());
+
+        jour3.setCellValueFactory(cell -> cell.getValue().jour3Property());
+        tempsDebut3.setCellValueFactory(cell -> cell.getValue().debut3Property());
+        tempsFin3.setCellValueFactory(cell -> cell.getValue().fin3Property());
+
+        // === Cell Factories (Editors) ===
+
+        nameCours.setCellFactory(TextFieldTableCell.forTableColumn());
+
+        nbCredits.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+
+        dateDebut.setCellFactory(column -> new DatePickerCell<>());
+        dateFin.setCellFactory(column -> new DatePickerCell<>());
+
+        jour1.setCellFactory(ChoiceBoxTableCell.forTableColumn(DayOfWeek.values()));
+        jour2.setCellFactory(ChoiceBoxTableCell.forTableColumn(DayOfWeek.values()));
+        jour3.setCellFactory(ChoiceBoxTableCell.forTableColumn(DayOfWeek.values()));
+
+        tempsDebut1.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
+        tempsFin1.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
+        tempsDebut2.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
+        tempsFin2.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
+        tempsDebut3.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
+        tempsFin3.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
+
+        // === Optional Edit Commit Handlers (if you want manual update logic) ===
+        nameCours.setOnEditCommit(e -> e.getRowValue().nomCoursProperty().set(e.getNewValue()));
+        nbCredits.setOnEditCommit(e -> e.getRowValue().nbCreditsProperty().set(e.getNewValue()));
+        // Others handled directly by property bindings
+
+        // === Set Table Items ===
+        listeCours.setItems(maListeCours);
+
+        ObservableList<DayOfWeek> jours = FXCollections.observableArrayList(DayOfWeek.values());
+        jourSeances1Ajout.setItems(jours);
+        jourSeances2Ajout.setItems(jours);
+        jourSeances3Ajout.setItems(jours);
+
+        tempsDebutSeance1Ajout.setItems(horaires);
+        tempsFinSeance1Ajout.setItems(horaires);
+        tempsDebutSeance2Ajout.setItems(horaires);
+        tempsFinSeance2Ajout.setItems(horaires);
+        tempsDebutSeance3Ajout.setItems(horaires);
+        tempsFinSeance3Ajout.setItems(horaires);
+    }
+
+    public class DatePickerCell<T> extends TableCell<T, LocalDate> {
+        private final DatePicker datePicker = new DatePicker();
+
+        public DatePickerCell() {
+            datePicker.setOnAction(e -> {
+                commitEdit(datePicker.getValue());
+            });
+            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        }
+
+        @Override
+        protected void updateItem(LocalDate item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                datePicker.setValue(item);
+                setGraphic(datePicker);
+            }
+        }
+    }
+
+    public class TimePickerCell<T> extends TableCell<T, LocalTime> {
+        private final ComboBox<LocalTime> comboBox = new ComboBox<>();
+
+        public TimePickerCell() {
+            ObservableList<LocalTime> times = FXCollections.observableArrayList();
+            for (int h = 0; h < 24; h++) {
+                times.add(LocalTime.of(h, 0));
+                times.add(LocalTime.of(h, 30));
+            }
+
+            comboBox.setItems(times);
+            comboBox.setConverter(new StringConverter<>() {
+                private final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+
+                @Override public String toString(LocalTime t) {
+                    return t != null ? t.format(formatter) : "";
+                }
+
+                @Override public LocalTime fromString(String s) {
+                    return LocalTime.parse(s, formatter);
+                }
+            });
+
+            comboBox.setOnAction(e -> commitEdit(comboBox.getValue()));
+            setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
+        }
+
+        @Override
+        protected void updateItem(LocalTime item, boolean empty) {
+            super.updateItem(item, empty);
+            if (empty) {
+                setGraphic(null);
+            } else {
+                comboBox.setValue(item);
+                setGraphic(comboBox);
+            }
+        }
+    }
 
 
     public void onDeleteSelectedClick(ActionEvent actionEvent) {
@@ -19,8 +205,50 @@ public abstract class CoursController implements Initializable {
 
 
     public void onSelectNumSeances(ActionEvent actionEvent) {
+        Integer count = nbSeances.getValue();
+        ajoutSeance2.setDisable(count < 2);
+        ajoutSeance3.setDisable(count < 3);
     }
 
     public void onAjoutCoursClick(ActionEvent actionEvent) {
+
+        SeanceClass mySeance1 = new SeanceClass(jourSeances1Ajout.getValue(), tempsDebutSeance1Ajout.getValue(), tempsFinSeance1Ajout.getValue());
+        SeanceClass mySeance2 = new SeanceClass(false);
+        SeanceClass mySeance3 = new SeanceClass(false);
+
+        if(ajoutSeance2.isDisabled()) {
+            mySeance2 = new SeanceClass(jourSeances2Ajout.getValue(), tempsDebutSeance2Ajout.getValue(), tempsFinSeance2Ajout.getValue());
+        }
+        if(ajoutSeance3.isDisabled()) {
+            mySeance3 = new SeanceClass(jourSeances3Ajout.getValue(), tempsDebutSeance3Ajout.getValue(), tempsFinSeance3Ajout.getValue());
+        }
+
+        CoursClasse newCours = new CoursClasse(nomCoursAjout.getText(), nbCreditsAjout.getValue(), dateDebutAjout.getValue(), dateFinAjout.getValue(), mySeance1, mySeance2, mySeance3);
+        maListeCours.add(new CoursViewModel(newCours));
+        clearForm();
     }
+
+    public void clearForm() {
+        nbSeances.getSelectionModel().clearSelection();
+        ajoutSeance2.setDisable(true);
+        ajoutSeance3.setDisable(true);
+
+        nomCoursAjout.setText("");
+        nbCreditsAjout.getSelectionModel().clearSelection();
+        dateDebutAjout.setValue(null);
+        dateFinAjout.setValue(null);
+
+        jourSeances1Ajout.setValue(null);
+        jourSeances2Ajout.setValue(null);
+        jourSeances3Ajout.setValue(null);
+
+        tempsDebutSeance1Ajout.getSelectionModel().clearSelection();
+        tempsDebutSeance2Ajout.getSelectionModel().clearSelection();
+        tempsDebutSeance3Ajout.getSelectionModel().clearSelection();
+
+        tempsFinSeance1Ajout.getSelectionModel().clearSelection();
+        tempsFinSeance2Ajout.getSelectionModel().clearSelection();
+        tempsFinSeance3Ajout.getSelectionModel().clearSelection();
+    }
+
 }

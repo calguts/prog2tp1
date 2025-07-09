@@ -41,42 +41,45 @@
 
         <HBox fx:id="ajouterCours">
             <TextField fx:id="nomCoursAjout" maxWidth="150" promptText="Nom du cours"/>
-            <ChoiceBox fx:id="nbCreditsAjout">
+            <ComboBox fx:id="nbCreditsAjout">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="1"/>
-                        <String fx:value="2"/>
-                        <String fx:value="3"/>
-                        <String fx:value="4"/>
-                        <String fx:value="5"/>
-                        <String fx:value="6"/>
+                        <Integer fx:value="1"/>
+                        <Integer fx:value="2"/>
+                        <Integer fx:value="3"/>
+                        <Integer fx:value="4"/>
+                        <Integer fx:value="5"/>
+                        <Integer fx:value="6"/>
                     </FXCollections>
                 </items>
-            </ChoiceBox>
-            <ChoiceBox fx:id="nbSeances" onAction="#onSelectNumSeances">
+            </ComboBox>
+            <ComboBox fx:id="nbSeances" onAction="#onSelectNumSeances" promptText="Nombre de Seances">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
-                        <String fx:value="1"/>
-                        <String fx:value="2"/>
-                        <String fx:value="3"/>
+                        <Integer fx:value="1"/>
+                        <Integer fx:value="2"/>
+                        <Integer fx:value="3"/>
                     </FXCollections>
                 </items>
-            </ChoiceBox>
+            </ComboBox>
             <DatePicker fx:id="dateDebutAjout" promptText="Date de début du cours"/>
             <DatePicker fx:id="dateFinAjout" promptText="Date de fin du cours"/>
             <Button text="Ajouter Cours" onAction="#onAjoutCoursClick"/>
         </HBox>
         <HBox fx:id="ajoutSeance1">
-
-
+            <ComboBox fx:id="jourSeance1Ajout"/>
+            <ComboBox fx:id="tempsDebutSeance1Ajout"/>
+            <ComboBox fx:id="tempsFinSeance1Ajout"/>
         </HBox>
         <HBox fx:id="ajoutSeance2">
-
-
+            <ComboBox fx:id="jourSeance2Ajout"/>
+            <ComboBox fx:id="tempsDebutSeance2Ajout"/>
+            <ComboBox fx:id="tempsFinSeance2Ajout"/>
         </HBox>
         <HBox fx:id="ajouterSeance3">
-
-
+            <ComboBox fx:id="jourSeance3Ajout"/>
+            <ComboBox fx:id="tempsDebutSeance3Ajout"/>
+            <ComboBox fx:id="tempsFinSeance3Ajout"/>
         </HBox>
     </VBox>
 
