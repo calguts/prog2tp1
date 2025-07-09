@@ -12,12 +12,18 @@ import javafx.scene.layout.HBox;
 import javafx.util.StringConverter;
 import javafx.util.converter.IntegerStringConverter;
 
+import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ResourceBundle;
 
-public abstract class CoursController implements Initializable {
+public class CoursController implements Initializable {
+
+    public CoursController() {
+        // no-arg constructor
+    }
 
     @FXML private TableView<CoursViewModel> listeCours;
 
@@ -44,9 +50,9 @@ public abstract class CoursController implements Initializable {
     @FXML private DatePicker dateFinAjout;
     @FXML private ComboBox<Integer> nbSeances;
 
-    @FXML private ComboBox<DayOfWeek> jourSeances1Ajout;
-    @FXML private ComboBox<DayOfWeek> jourSeances2Ajout;
-    @FXML private ComboBox<DayOfWeek> jourSeances3Ajout;
+    @FXML private ComboBox<DayOfWeek> jourSeance1Ajout;
+    @FXML private ComboBox<DayOfWeek> jourSeance2Ajout;
+    @FXML private ComboBox<DayOfWeek> jourSeance3Ajout;
 
     @FXML private ComboBox<LocalTime> tempsDebutSeance1Ajout;
     @FXML private ComboBox<LocalTime> tempsDebutSeance2Ajout;
@@ -66,8 +72,8 @@ public abstract class CoursController implements Initializable {
     @FXML
     private final ObservableList<CoursViewModel> maListeCours = FXCollections.observableArrayList();
 
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         // Enable editing
         listeCours.setEditable(true);
 
@@ -125,9 +131,9 @@ public abstract class CoursController implements Initializable {
         listeCours.setItems(maListeCours);
 
         ObservableList<DayOfWeek> jours = FXCollections.observableArrayList(DayOfWeek.values());
-        jourSeances1Ajout.setItems(jours);
-        jourSeances2Ajout.setItems(jours);
-        jourSeances3Ajout.setItems(jours);
+        jourSeance1Ajout.setItems(jours);
+        jourSeance2Ajout.setItems(jours);
+        jourSeance3Ajout.setItems(jours);
 
         tempsDebutSeance1Ajout.setItems(horaires);
         tempsFinSeance1Ajout.setItems(horaires);
@@ -212,15 +218,15 @@ public abstract class CoursController implements Initializable {
 
     public void onAjoutCoursClick(ActionEvent actionEvent) {
 
-        SeanceClass mySeance1 = new SeanceClass(jourSeances1Ajout.getValue(), tempsDebutSeance1Ajout.getValue(), tempsFinSeance1Ajout.getValue());
+        SeanceClass mySeance1 = new SeanceClass(jourSeance1Ajout.getValue(), tempsDebutSeance1Ajout.getValue(), tempsFinSeance1Ajout.getValue());
         SeanceClass mySeance2 = new SeanceClass(false);
         SeanceClass mySeance3 = new SeanceClass(false);
 
         if(ajoutSeance2.isDisabled()) {
-            mySeance2 = new SeanceClass(jourSeances2Ajout.getValue(), tempsDebutSeance2Ajout.getValue(), tempsFinSeance2Ajout.getValue());
+            mySeance2 = new SeanceClass(jourSeance2Ajout.getValue(), tempsDebutSeance2Ajout.getValue(), tempsFinSeance2Ajout.getValue());
         }
         if(ajoutSeance3.isDisabled()) {
-            mySeance3 = new SeanceClass(jourSeances3Ajout.getValue(), tempsDebutSeance3Ajout.getValue(), tempsFinSeance3Ajout.getValue());
+            mySeance3 = new SeanceClass(jourSeance3Ajout.getValue(), tempsDebutSeance3Ajout.getValue(), tempsFinSeance3Ajout.getValue());
         }
 
         CoursClasse newCours = new CoursClasse(nomCoursAjout.getText(), nbCreditsAjout.getValue(), dateDebutAjout.getValue(), dateFinAjout.getValue(), mySeance1, mySeance2, mySeance3);
@@ -238,9 +244,9 @@ public abstract class CoursController implements Initializable {
         dateDebutAjout.setValue(null);
         dateFinAjout.setValue(null);
 
-        jourSeances1Ajout.setValue(null);
-        jourSeances2Ajout.setValue(null);
-        jourSeances3Ajout.setValue(null);
+        jourSeance1Ajout.setValue(null);
+        jourSeance2Ajout.setValue(null);
+        jourSeance3Ajout.setValue(null);
 
         tempsDebutSeance1Ajout.getSelectionModel().clearSelection();
         tempsDebutSeance2Ajout.getSelectionModel().clearSelection();

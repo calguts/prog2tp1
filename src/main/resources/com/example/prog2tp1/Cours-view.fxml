@@ -7,13 +7,16 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.collections.FXCollections?>
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.prog2tp1.CoursController"
             prefHeight="400.0" prefWidth="600.0">
 
-
-    <VBox xmlns:fx="http://javafx.com/fxml" spacing="10" padding="10">
+    <VBox xmlns:fx="http://javafx.com/fxml" spacing="10" >
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
         <Button text="Effacer Cour Selectionné" onAction="#onDeleteSelectedClick"/>
         <TableView fx:id="listeCours" editable="true">
             <columns>
