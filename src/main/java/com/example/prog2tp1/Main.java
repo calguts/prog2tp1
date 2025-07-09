@@ -1,3 +1,10 @@
+/*prog2tp1
+TP1 Programmation 2 IFT1025
+Par Cal Gutiérrez et Thomas Ring
+Remis le
+ */
+
+
 package com.example.prog2tp1;
 
 import javafx.application.Application;

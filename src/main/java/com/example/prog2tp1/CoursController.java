@@ -218,20 +218,28 @@ public class CoursController implements Initializable {
 
     public void onAjoutCoursClick(ActionEvent actionEvent) {
 
-        SeanceClass mySeance1 = new SeanceClass(jourSeance1Ajout.getValue(), tempsDebutSeance1Ajout.getValue(), tempsFinSeance1Ajout.getValue());
-        SeanceClass mySeance2 = new SeanceClass(false);
-        SeanceClass mySeance3 = new SeanceClass(false);
+        try {
+            SeanceClass mySeance1 = new SeanceClass(jourSeance1Ajout.getValue(), tempsDebutSeance1Ajout.getValue(), tempsFinSeance1Ajout.getValue());
+            SeanceClass mySeance2 = new SeanceClass(false);
+            SeanceClass mySeance3 = new SeanceClass(false);
 
-        if(ajoutSeance2.isDisabled()) {
-            mySeance2 = new SeanceClass(jourSeance2Ajout.getValue(), tempsDebutSeance2Ajout.getValue(), tempsFinSeance2Ajout.getValue());
-        }
-        if(ajoutSeance3.isDisabled()) {
-            mySeance3 = new SeanceClass(jourSeance3Ajout.getValue(), tempsDebutSeance3Ajout.getValue(), tempsFinSeance3Ajout.getValue());
-        }
+            if (!ajoutSeance2.isDisabled()) {
+                mySeance2 = new SeanceClass(jourSeance2Ajout.getValue(), tempsDebutSeance2Ajout.getValue(), tempsFinSeance2Ajout.getValue());
+            }
+            if (!ajoutSeance3.isDisabled()) {
+                mySeance3 = new SeanceClass(jourSeance3Ajout.getValue(), tempsDebutSeance3Ajout.getValue(), tempsFinSeance3Ajout.getValue());
+            }
 
-        CoursClasse newCours = new CoursClasse(nomCoursAjout.getText(), nbCreditsAjout.getValue(), dateDebutAjout.getValue(), dateFinAjout.getValue(), mySeance1, mySeance2, mySeance3);
-        maListeCours.add(new CoursViewModel(newCours));
-        clearForm();
+            CoursClasse newCours = new CoursClasse(nomCoursAjout.getText(), nbCreditsAjout.getValue(), dateDebutAjout.getValue(), dateFinAjout.getValue(), mySeance1, mySeance2, mySeance3);
+            addCoursListe(newCours);
+            maListeCours.add(new CoursViewModel(newCours));
+            clearForm();
+        } catch (Exception e) {
+            Alert alert = new Alert(Alert.AlertType.WARNING);
+            alert.setTitle("Form Incomplete");
+            alert.setHeaderText("Please fill in all required fields.");
+            alert.showAndWait();
+        }
     }
 
     public void clearForm() {

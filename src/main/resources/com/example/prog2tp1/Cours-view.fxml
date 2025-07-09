@@ -79,7 +79,7 @@
             <ComboBox fx:id="tempsDebutSeance2Ajout"/>
             <ComboBox fx:id="tempsFinSeance2Ajout"/>
         </HBox>
-        <HBox fx:id="ajouterSeance3">
+        <HBox fx:id="ajoutSeance3">
             <ComboBox fx:id="jourSeance3Ajout"/>
             <ComboBox fx:id="tempsDebutSeance3Ajout"/>
             <ComboBox fx:id="tempsFinSeance3Ajout"/>
