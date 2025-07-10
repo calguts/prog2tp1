@@ -25,17 +25,17 @@
                 <TableColumn fx:id="dateDebut" text="Nombre de Crédits"/>
                 <TableColumn fx:id="dateFin" text="Nombre de Crédits"/>
                 <TableColumn fx:id="seance1" text="Seance #1"><columns>
-                    <TableColumn fx:id="jour1" text="Email" />
+                    <TableColumn fx:id="jour1" text="Jour" />
                     <TableColumn fx:id="tempsDebut1" text="Heure de début"/>
                     <TableColumn fx:id="tempsFin1" text="Heure de fin"/>
                 </columns></TableColumn>
                 <TableColumn fx:id="seance2" text="Seance #2"><columns>
-                    <TableColumn fx:id="jour2" text="Email" />
+                    <TableColumn fx:id="jour2" text="Jour" />
                     <TableColumn fx:id="tempsDebut2" text="Heure de début"/>
                     <TableColumn fx:id="tempsFin2" text="Heure de fin"/>
                 </columns></TableColumn>
                 <TableColumn fx:id="seance3" text="Seance #3"><columns>
-                    <TableColumn fx:id="jour3" text="Email" />
+                    <TableColumn fx:id="jour3" text="Jour" />
                     <TableColumn fx:id="tempsDebut3" text="Heure de début"/>
                     <TableColumn fx:id="tempsFin3" text="Heure de fin"/>
                 </columns></TableColumn>

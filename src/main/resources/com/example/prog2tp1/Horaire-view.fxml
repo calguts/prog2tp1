@@ -6,9 +6,28 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
+<?import javafx.geometry.Insets?>
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.prog2tp1.HoraireController"
             prefHeight="400.0" prefWidth="600.0">
-
+    <VBox xmlns:fx="http://javafx.com/fxml" spacing="10">
+        <padding>
+            <Insets top="10" right="10" bottom="10" left="10"/>
+        </padding>
+        <ComboBox fx:id="nbCreditsSession" onAction="#onSelectNumCredits" promptText="Nombre de Credits"/>
+        <TableView fx:id="listeCoursH" editable="true">
+            <columns>
+                <TableColumn fx:id="nameCoursH" text="Nom du Cours"/>
+                <TableColumn fx:id="nbCreditsH" text="Nombre de Crédits"/>
+                <TableColumn fx:id="dateDebutH" text="Date de début"/>
+                <TableColumn fx:id="dateFinH" text="Date de fin"/>
+                <TableColumn fx:id="jourH" text="Email" />
+                <TableColumn fx:id="tempsDebutH" text="Heure de début"/>
+                <TableColumn fx:id="tempsFinH" text="Heure de fin"/>
+            </columns>
+        </TableView>
+    </VBox>
 </AnchorPane>
+
+

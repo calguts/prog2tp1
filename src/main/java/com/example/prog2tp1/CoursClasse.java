@@ -61,7 +61,6 @@ public class CoursClasse {
     }
 
     public void setHoraireCours(SeanceClass seanceClass1, SeanceClass seanceClass2, SeanceClass seanceClass3) {
-        this.dateFinCours = dateFinCours;
         horaireCours.add(seanceClass1);
         horaireCours.add(seanceClass2);
         horaireCours.add(seanceClass3);

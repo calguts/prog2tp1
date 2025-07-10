@@ -44,4 +44,5 @@ public class SeanceClass {
     public void setFinTimeSection(LocalTime finTimeSection) {
         this.finTimeSection = finTimeSection;
     }
+
 }

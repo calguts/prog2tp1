@@ -68,8 +68,6 @@ public class CoursController implements Initializable {
     @FXML private HBox ajoutSeance2;
     @FXML private HBox ajoutSeance3;
 
-
-
     @FXML
     private final ObservableList<CoursViewModel> maListeCours = FXCollections.observableArrayList();
 
@@ -253,25 +251,62 @@ public class CoursController implements Initializable {
     public void onAjoutCoursClick(ActionEvent actionEvent) {
 
         try {
-            SeanceClass mySeance1 = new SeanceClass(jourSeance1Ajout.getValue(), tempsDebutSeance1Ajout.getValue(), tempsFinSeance1Ajout.getValue());
-            SeanceClass mySeance2 = new SeanceClass(false);
-            SeanceClass mySeance3 = new SeanceClass(false);
+            boolean tempsCorrect1 =  dateDebutAjout.getValue().isBefore(dateDebutAjout.getValue());;
+            boolean tempsCorrect2 = true;
+            boolean tempsCorrect3 = true;
+            boolean dateCorrect = dateDebutAjout.getValue().isBefore(dateFinAjout.getValue());
 
-            if (!ajoutSeance2.isDisabled()) {
-                mySeance2 = new SeanceClass(jourSeance2Ajout.getValue(), tempsDebutSeance2Ajout.getValue(), tempsFinSeance2Ajout.getValue());
-            }
-            if (!ajoutSeance3.isDisabled()) {
-                mySeance3 = new SeanceClass(jourSeance3Ajout.getValue(), tempsDebutSeance3Ajout.getValue(), tempsFinSeance3Ajout.getValue());
-            }
+            if (tempsCorrect1 && dateCorrect) {
 
-            CoursClasse newCours = new CoursClasse(nomCoursAjout.getText(), nbCreditsAjout.getValue(), dateDebutAjout.getValue(), dateFinAjout.getValue(), mySeance1, mySeance2, mySeance3);
-            CoursListe.addCoursListe(newCours);
-            maListeCours.add(new CoursViewModel(newCours));
-            clearForm();
+                SeanceClass mySeance1 = new SeanceClass(jourSeance1Ajout.getValue(), tempsDebutSeance1Ajout.getValue(), tempsFinSeance1Ajout.getValue());
+                SeanceClass mySeance2 = new SeanceClass(false);
+                SeanceClass mySeance3 = new SeanceClass(false);
+
+                if (!ajoutSeance2.isDisabled()) {
+                    tempsCorrect2 = tempsDebutSeance2Ajout.getValue().isBefore(tempsFinSeance2Ajout.getValue());
+                    if (tempsCorrect2)
+                        mySeance2 = new SeanceClass(jourSeance2Ajout.getValue(), tempsDebutSeance2Ajout.getValue(), tempsFinSeance2Ajout.getValue());
+                    if (!ajoutSeance3.isDisabled()) {
+                        tempsCorrect3 = tempsDebutSeance3Ajout.getValue().isBefore(tempsFinSeance3Ajout.getValue());
+                        if (tempsCorrect3)
+                            mySeance3 = new SeanceClass(jourSeance3Ajout.getValue(), tempsDebutSeance3Ajout.getValue(), tempsFinSeance3Ajout.getValue());
+                    }
+                }
+                if (tempsCorrect2 && tempsCorrect3) {
+                    CoursClasse newCours = new CoursClasse(nomCoursAjout.getText(), nbCreditsAjout.getValue(), dateDebutAjout.getValue(), dateFinAjout.getValue(), mySeance1, mySeance2, mySeance3);
+                    CoursListe.addCoursListe(newCours);
+                    maListeCours.add(new CoursViewModel(newCours));
+                    clearForm();
+                } else{
+                    Alert alert = new Alert(Alert.AlertType.WARNING);
+                    alert.setTitle("Formulaire invalide");
+                    alert.setHeaderText("Heure de fin invalide");
+                    alert.setContentText("L'heure de fin ne peut pas précéder l'heure de début.");
+                    alert.showAndWait();
+                }
+            } else if (tempsCorrect1) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Formulaire invalide");
+                alert.setHeaderText("Date de fin invalide");
+                alert.setContentText("La date de fin ne peut pas précéder la date de début.");
+                alert.showAndWait();
+            } else if (dateCorrect) {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Formulaire invalide");
+                alert.setHeaderText("Heure de fin invalide");
+                alert.setContentText("L'heure de fin ne peut pas précéder l'heure de début.");
+                alert.showAndWait();
+            }else {
+                Alert alert = new Alert(Alert.AlertType.WARNING);
+                alert.setTitle("Formulaire invalide");
+                alert.setHeaderText("Date Heure de fin invalide");
+                alert.setContentText("Assurez-vous que les dates et heures de fin soient après celles de début.");
+                alert.showAndWait();
+            }
         } catch (Exception e) {
             Alert alert = new Alert(Alert.AlertType.WARNING);
-            alert.setTitle("Form Incomplete");
-            alert.setHeaderText("Please fill in all required fields.");
+            alert.setTitle("Formulaire incomplet");
+            alert.setHeaderText("Veuillez remplir toutes les cases.");
             alert.showAndWait();
         }
     }
@@ -298,5 +333,4 @@ public class CoursController implements Initializable {
         tempsFinSeance2Ajout.getSelectionModel().clearSelection();
         tempsFinSeance3Ajout.getSelectionModel().clearSelection();
     }
-
 }
