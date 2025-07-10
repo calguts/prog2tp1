@@ -6,5 +6,7 @@ public class HoraireClasse {
 
     ArrayList<CoursClasse> monHoraire;
 
-
+    public HoraireClasse() {
+        monHoraire = new ArrayList<>();
+    }
 }

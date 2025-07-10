@@ -17,6 +17,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 public class CoursController implements Initializable {
@@ -84,6 +85,12 @@ public class CoursController implements Initializable {
             horaires.add(LocalTime.of(hour, 30));
         }
 
+        ObservableList<Integer> creditsPoss = FXCollections.observableArrayList();
+        for (int i = 1; i <= 6; i++)
+            creditsPoss.add(i);
+
+        ObservableList<DayOfWeek> jours = FXCollections.observableArrayList(DayOfWeek.values());
+
         // === Bindings for Display ===
         nameCours.setCellValueFactory(cell -> cell.getValue().nomCoursProperty());
         nbCredits.setCellValueFactory(cell -> cell.getValue().nbCreditsProperty().asObject());
@@ -106,14 +113,14 @@ public class CoursController implements Initializable {
 
         nameCours.setCellFactory(TextFieldTableCell.forTableColumn());
 
-        nbCredits.setCellFactory(TextFieldTableCell.forTableColumn(new IntegerStringConverter()));
+        nbCredits.setCellFactory(ChoiceBoxTableCell.forTableColumn(creditsPoss));
 
         dateDebut.setCellFactory(column -> new DatePickerCell<>());
         dateFin.setCellFactory(column -> new DatePickerCell<>());
 
-        jour1.setCellFactory(ChoiceBoxTableCell.forTableColumn(DayOfWeek.values()));
-        jour2.setCellFactory(ChoiceBoxTableCell.forTableColumn(DayOfWeek.values()));
-        jour3.setCellFactory(ChoiceBoxTableCell.forTableColumn(DayOfWeek.values()));
+        jour1.setCellFactory(ChoiceBoxTableCell.forTableColumn(jours));
+        jour2.setCellFactory(ChoiceBoxTableCell.forTableColumn(jours));
+        jour3.setCellFactory(ChoiceBoxTableCell.forTableColumn(jours));
 
         tempsDebut1.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
         tempsFin1.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
@@ -130,7 +137,8 @@ public class CoursController implements Initializable {
         // === Set Table Items ===
         listeCours.setItems(maListeCours);
 
-        ObservableList<DayOfWeek> jours = FXCollections.observableArrayList(DayOfWeek.values());
+        nbCreditsAjout.setItems(creditsPoss);
+
         jourSeance1Ajout.setItems(jours);
         jourSeance2Ajout.setItems(jours);
         jourSeance3Ajout.setItems(jours);
@@ -206,6 +214,32 @@ public class CoursController implements Initializable {
 
 
     public void onDeleteSelectedClick(ActionEvent actionEvent) {
+        CoursViewModel selectedVM = listeCours.getSelectionModel().getSelectedItem();
+
+        if (selectedVM != null) {
+            // Optionally confirm
+            Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+            alert.setTitle("Confirmation");
+            alert.setHeaderText("Supprimer le cours sélectionné?");
+            alert.setContentText("Cette action est irréversible.");
+            Optional<ButtonType> result = alert.showAndWait();
+
+            if (result.isPresent() && result.get() == ButtonType.OK) {
+                // Remove from TableView's observable list
+                maListeCours.remove(selectedVM);
+
+                // Remove from backend model list
+                CoursClasse realCours = selectedVM.getModel();
+                CoursListe.deleteCours(realCours);
+            }
+        } else {
+            // Show error if nothing selected
+            Alert warning = new Alert(Alert.AlertType.WARNING);
+            warning.setTitle("Aucun cours sélectionné");
+            warning.setHeaderText(null);
+            warning.setContentText("Veuillez sélectionner un cours à supprimer.");
+            warning.showAndWait();
+        }
     }
 
 
@@ -231,7 +265,7 @@ public class CoursController implements Initializable {
             }
 
             CoursClasse newCours = new CoursClasse(nomCoursAjout.getText(), nbCreditsAjout.getValue(), dateDebutAjout.getValue(), dateFinAjout.getValue(), mySeance1, mySeance2, mySeance3);
-            addCoursListe(newCours);
+            CoursListe.addCoursListe(newCours);
             maListeCours.add(new CoursViewModel(newCours));
             clearForm();
         } catch (Exception e) {

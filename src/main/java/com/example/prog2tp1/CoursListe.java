@@ -4,21 +4,29 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class CoursListe {
-  ArrayList<CoursClasse> mesCours;
+    private static final CoursListe instance = new CoursListe();
+
+    private static final ArrayList<CoursClasse> mesCours = new ArrayList<>();
+
 
     public CoursListe() {
-        ArrayList<CoursClasse> coursList = new ArrayList<>();
+
     }
+
+    public static CoursListe getInstance() {
+        return instance;
+    }
+
 
     public ArrayList<CoursClasse> getMesCours() {
         return mesCours;
     }
     
-    public void addCoursListe(CoursClasse monCours) {
+    public static void addCoursListe(CoursClasse monCours) {
         mesCours.add(monCours);
     }
 
-    public void deleteCours(CoursClasse monCours) {
+    public static void deleteCours(CoursClasse monCours) {
         mesCours.remove(monCours);
     }
 

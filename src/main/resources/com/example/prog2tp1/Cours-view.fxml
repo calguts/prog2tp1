@@ -44,18 +44,7 @@
 
         <HBox fx:id="ajouterCours">
             <TextField fx:id="nomCoursAjout" maxWidth="150" promptText="Nom du cours"/>
-            <ComboBox fx:id="nbCreditsAjout">
-                <items>
-                    <FXCollections fx:factory="observableArrayList">
-                        <Integer fx:value="1"/>
-                        <Integer fx:value="2"/>
-                        <Integer fx:value="3"/>
-                        <Integer fx:value="4"/>
-                        <Integer fx:value="5"/>
-                        <Integer fx:value="6"/>
-                    </FXCollections>
-                </items>
-            </ComboBox>
+            <ComboBox fx:id="nbCreditsAjout" promptText="Nombre de crédits"/>
             <ComboBox fx:id="nbSeances" onAction="#onSelectNumSeances" promptText="Nombre de Seances">
                 <items>
                     <FXCollections fx:factory="observableArrayList">
@@ -70,19 +59,19 @@
             <Button text="Ajouter Cours" onAction="#onAjoutCoursClick"/>
         </HBox>
         <HBox fx:id="ajoutSeance1">
-            <ComboBox fx:id="jourSeance1Ajout"/>
-            <ComboBox fx:id="tempsDebutSeance1Ajout"/>
-            <ComboBox fx:id="tempsFinSeance1Ajout"/>
+            <ComboBox fx:id="jourSeance1Ajout" promptText="Jour"/>
+            <ComboBox fx:id="tempsDebutSeance1Ajout" promptText="Heure de début"/>
+            <ComboBox fx:id="tempsFinSeance1Ajout" promptText="Heure de fin"/>
         </HBox>
         <HBox fx:id="ajoutSeance2">
-            <ComboBox fx:id="jourSeance2Ajout"/>
-            <ComboBox fx:id="tempsDebutSeance2Ajout"/>
+            <ComboBox fx:id="jourSeance2Ajout" promptText="Jour"/>
+            <ComboBox fx:id="tempsDebutSeance2Ajout" promptText="Heure de début"/>
             <ComboBox fx:id="tempsFinSeance2Ajout"/>
         </HBox>
         <HBox fx:id="ajoutSeance3">
-            <ComboBox fx:id="jourSeance3Ajout"/>
-            <ComboBox fx:id="tempsDebutSeance3Ajout"/>
-            <ComboBox fx:id="tempsFinSeance3Ajout"/>
+            <ComboBox fx:id="jourSeance3Ajout" promptText="Jour"/>
+            <ComboBox fx:id="tempsDebutSeance3Ajout" promptText="Heure de début"/>
+            <ComboBox fx:id="tempsFinSeance3Ajout" promptText="Heure de fin"/>
         </HBox>
     </VBox>
 
