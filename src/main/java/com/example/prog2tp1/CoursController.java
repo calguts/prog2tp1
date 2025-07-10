@@ -127,10 +127,173 @@ public class CoursController implements Initializable {
         tempsDebut3.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
         tempsFin3.setCellFactory(column -> new TimePickerCell<CoursViewModel>());
 
-        // === Optional Edit Commit Handlers (if you want manual update logic) ===
-        nameCours.setOnEditCommit(e -> e.getRowValue().nomCoursProperty().set(e.getNewValue()));
+
+        nameCours.setOnEditCommit(e -> {
+            if (e.getNewValue() == null || e.getNewValue().isBlank()){
+                e.getRowValue().nomCoursProperty().set(e.getOldValue());
+            } else
+                e.getRowValue().nomCoursProperty().set(e.getNewValue());
+        });
+
         nbCredits.setOnEditCommit(e -> e.getRowValue().nbCreditsProperty().set(e.getNewValue()));
-        // Others handled directly by property bindings
+
+        dateDebut.setOnEditCommit(e -> {
+            LocalDate newDateDebut = e.getNewValue();
+            LocalDate dateFin = e.getRowValue().dateFinCoursProperty().get();
+
+            if (dateFin != null && newDateDebut.isAfter(dateFin)) {
+                e.getRowValue().dateDebutCoursProperty().set(e.getOldValue());
+            } else {
+                e.getRowValue().dateDebutCoursProperty().set(newDateDebut);
+            }
+        });
+
+        dateFin.setOnEditCommit(e -> {
+            LocalDate newDateFin = e.getNewValue();
+            LocalDate dateDebut = e.getRowValue().dateFinCoursProperty().get();
+
+            if (dateDebut != null && newDateFin.isBefore(dateDebut)) {
+                e.getRowValue().dateDebutCoursProperty().set(e.getOldValue());
+            } else {
+                e.getRowValue().dateFinCoursProperty().set(newDateFin);
+            }
+        });
+
+        jour1.setOnEditCommit(e -> e.getRowValue().jour1Property().set(e.getNewValue()));
+
+        tempsDebut1.setOnEditCommit(e -> {
+            LocalTime newTempsDebut = e.getNewValue();
+            LocalTime tempsFin = e.getRowValue().fin1Property().get();
+
+            if (tempsFin != null && newTempsDebut.isAfter(tempsFin)) {
+                e.getRowValue().debut1Property().set(e.getOldValue());
+            } else {
+                e.getRowValue().debut1Property().set(newTempsDebut);
+            }
+        });
+
+        tempsFin1.setOnEditCommit(e -> {
+            LocalTime newTempsFin = e.getNewValue();
+            LocalTime tempsDebut = e.getRowValue().debut1Property().get();
+
+            if (tempsDebut != null && newTempsFin.isBefore(tempsDebut)) {
+                e.getRowValue().fin1Property().set(e.getOldValue());
+            } else {
+                e.getRowValue().fin1Property().set(newTempsFin);
+            }
+        });
+
+        jour2.setOnEditCommit(e -> {
+            e.getRowValue().jour2Property().set(e.getNewValue());
+            LocalTime tempsDebut = e.getRowValue().debut2Property().get();
+            LocalTime tempsFin = e.getRowValue().fin2Property().get();
+
+            if (tempsDebut == null){
+                e.getRowValue().debut2Property().set(LocalTime.of(1, 0));
+            }
+            if (tempsFin == null){
+                e.getRowValue().fin2Property().set(LocalTime.of(23, 30));
+            }
+        });
+
+        tempsDebut2.setOnEditCommit(e -> {
+            LocalTime newTempsDebut = e.getNewValue();
+            LocalTime tempsFin = e.getRowValue().fin2Property().get();
+
+            if (tempsFin != null && newTempsDebut.isAfter(tempsFin)) {
+                e.getRowValue().debut2Property().set(e.getOldValue());
+            } else {
+                e.getRowValue().debut2Property().set(newTempsDebut);
+
+                if(tempsFin == null){
+                    e.getRowValue().fin2Property().set(LocalTime.of(23, 30));
+                }
+                if(e.getRowValue().jour2Property().get() == null){
+                    e.getRowValue().jour2Property().set(DayOfWeek.MONDAY);
+                }
+            }
+        });
+
+        tempsFin2.setOnEditCommit(e -> {
+            LocalTime newTempsFin = e.getNewValue();
+            LocalTime tempsDebut = e.getRowValue().debut2Property().get();
+
+            if (tempsDebut != null && newTempsFin.isAfter(tempsDebut)) {
+                e.getRowValue().fin2Property().set(e.getOldValue());
+            } else {
+                e.getRowValue().debut2Property().set(newTempsFin);
+
+                if(tempsDebut == null){
+                    e.getRowValue().fin2Property().set(LocalTime.of(23, 30));
+                }
+                if(e.getRowValue().jour2Property().get() == null){
+                    e.getRowValue().jour2Property().set(DayOfWeek.MONDAY);
+                }
+            }
+        });
+
+
+        jour3.setOnEditCommit(e -> {
+
+            if(e.getRowValue().jour2Property().get() != null) {
+                e.getRowValue().jour3Property().set(e.getNewValue());
+                LocalTime tempsDebut = e.getRowValue().debut3Property().get();
+                LocalTime tempsFin = e.getRowValue().fin3Property().get();
+
+                if (tempsDebut == null) {
+                    e.getRowValue().debut3Property().set(LocalTime.of(1, 0));
+                }
+                if (tempsFin == null) {
+                    e.getRowValue().fin3Property().set(LocalTime.of(23, 30));
+                }
+            }
+            else{
+                e.getRowValue().jour3Property().set(e.getOldValue());
+            }
+        });
+
+        tempsDebut3.setOnEditCommit(e -> {
+            if(e.getRowValue().jour2Property().get() != null) {
+                LocalTime newTempsDebut = e.getNewValue();
+                LocalTime tempsFin = e.getRowValue().fin3Property().get();
+
+                if (tempsFin != null && newTempsDebut.isAfter(tempsFin)) {
+                    e.getRowValue().debut3Property().set(e.getOldValue());
+                } else {
+                    e.getRowValue().debut3Property().set(newTempsDebut);
+
+                    if (tempsFin == null) {
+                        e.getRowValue().fin3Property().set(LocalTime.of(23, 30));
+                    }
+                    if (e.getRowValue().jour3Property().get() == null) {
+                        e.getRowValue().jour3Property().set(DayOfWeek.MONDAY);
+                    }
+                }
+            } else{
+                e.getRowValue().debut3Property().set(e.getOldValue());
+            }
+        });
+
+        tempsFin3.setOnEditCommit(e -> {
+            if(e.getRowValue().jour2Property().get() != null) {
+                LocalTime newTempsFin = e.getNewValue();
+                LocalTime tempsDebut = e.getRowValue().debut3Property().get();
+
+                if (tempsDebut != null && newTempsFin.isAfter(tempsDebut)) {
+                    e.getRowValue().fin2Property().set(e.getOldValue());
+                } else {
+                    e.getRowValue().debut2Property().set(newTempsFin);
+                    if (tempsDebut == null) {
+                        e.getRowValue().fin3Property().set(LocalTime.of(23, 30));
+                    }
+                    if (e.getRowValue().jour3Property().get() == null) {
+                        e.getRowValue().jour3Property().set(DayOfWeek.MONDAY);
+                    }
+                }
+            }else{
+                e.getRowValue().fin3Property().set(e.getOldValue());
+            }
+        });
 
         // === Set Table Items ===
         listeCours.setItems(maListeCours);
@@ -210,7 +373,6 @@ public class CoursController implements Initializable {
         }
     }
 
-
     public void onDeleteSelectedClick(ActionEvent actionEvent) {
         CoursViewModel selectedVM = listeCours.getSelectionModel().getSelectedItem();
 
@@ -284,13 +446,13 @@ public class CoursController implements Initializable {
                     alert.setContentText("L'heure de fin ne peut pas précéder l'heure de début.");
                     alert.showAndWait();
                 }
-            } else if (tempsCorrect1) {
+            } else if (tempsCorrect1 && !dateCorrect) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Formulaire invalide");
                 alert.setHeaderText("Date de fin invalide");
                 alert.setContentText("La date de fin ne peut pas précéder la date de début.");
                 alert.showAndWait();
-            } else if (dateCorrect) {
+            } else if (dateCorrect && !tempsCorrect1) {
                 Alert alert = new Alert(Alert.AlertType.WARNING);
                 alert.setTitle("Formulaire invalide");
                 alert.setHeaderText("Heure de fin invalide");

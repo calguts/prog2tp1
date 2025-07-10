@@ -20,7 +20,7 @@ public class Main extends Application {
     public void start(Stage mainStage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("Planif-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        mainStage.setTitle("Planificateur d'horaires par Cal Gutiérrez et!");
+        mainStage.setTitle("Planificateur d'horaires par Cal Gutiérrez et Thomas Ring!");
         mainStage.setScene(scene);
         mainStage.show();
     }

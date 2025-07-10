@@ -15,7 +15,7 @@
         <padding>
             <Insets top="10" right="10" bottom="10" left="10"/>
         </padding>
-        <ComboBox fx:id="nbCreditsSession" onAction="#onSelectNumCredits" promptText="Nombre de Credits"/>
+        <ComboBox fx:id="nbCreditsSession" onAction="#onSelectNumCredits" promptText="Nombre de credits pour cette session"/>
         <TableView fx:id="listeCoursH" editable="true">
             <columns>
                 <TableColumn fx:id="nameCoursH" text="Nom du Cours"/>
