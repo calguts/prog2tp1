@@ -15,16 +15,27 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ResourceBundle;
 
+/**
+ * Controlleur de Horaire-view, utilisée pour afficher l’horaire des séances de cours
+ * dans une TableView JavaFX. Cette classe configure les colonnes de la TableView, et
+ * affiche l'horaire généré selon le nombre de crédits demandés, sous forme d’une liste
+ * de séances individuelles.</p>
+ */
 public abstract class HoraireController  implements Initializable {
 
+    /**
+     * ComboBox permettant de filtrer les cours selon le nombre de crédits.
+     */
     public HoraireController() {
         // no-arg constructor
     }
 
+    /**  ComboBox permettant de filtrer les cours selon le nombre de crédits.*/
     @FXML public ComboBox<Integer> nbCreditsSession;
-    @FXML
-    private TableView<SeanceViewModel> listeCoursH;
+    /** TableView affichant toutes les séances des cours chronologiquement.*/
+    @FXML private TableView<SeanceViewModel> listeCoursH;
 
+    /** Les colonnes qui affichent chaque proprieté d'un cours et d'une seance */
     @FXML private TableColumn<SeanceViewModel, String> nameCoursH;
     @FXML private TableColumn<SeanceViewModel, Integer> nbCreditsH;
     @FXML private TableColumn<SeanceViewModel, LocalDate> dateDebutH;
@@ -33,6 +44,14 @@ public abstract class HoraireController  implements Initializable {
     @FXML private TableColumn<SeanceViewModel, LocalTime> tempsDebutH;
     @FXML private TableColumn<SeanceViewModel, LocalTime> tempsFinH;
 
+
+    /**
+     * Initialise la liste des crédits disponibles et configure les liaisons entre
+     * les colonnes de la TableView et les propriétés des objets {@code SeanceViewModel}.
+     *
+     * @param location L’emplacement utilisé pour résoudre les chemins relatifs aux ressources.
+     * @param resources Les ressources utilisées pour internationaliser le contenu.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         ObservableList<Integer> creditsSessionPoss = FXCollections.observableArrayList();
@@ -50,6 +69,12 @@ public abstract class HoraireController  implements Initializable {
         tempsFinH.setCellValueFactory(cell -> cell.getValue().finProperty());
     }
 
+    /**
+     * Méthode appelée lorsqu’un utilisateur sélectionne un nombre de crédits dans {@code nbCreditsSession}.
+     * Cette méthode peut être surchargée pour filtrer l’horaire selon le nombre de crédits.
+     *
+     * @param actionEvent L’événement de sélection dans la ComboBox.
+     */
     public void onSelectNumCredits(ActionEvent actionEvent){
 
         Integer sessionCredits = nbCreditsSession.getValue();

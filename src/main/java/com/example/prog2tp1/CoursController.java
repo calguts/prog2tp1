@@ -20,19 +20,38 @@ import java.time.format.DateTimeFormatter;
 import java.util.Optional;
 import java.util.ResourceBundle;
 
+/**
+ * Contrôleur de Cours-view pour la gestion des cours.
+ * Permet l'ajout, la modification et la suppression de cours, ainsi que
+ * l'interaction avec la vue via une TableView.
+ *
+ * Ce contrôleur lie les champs de formulaire (nom, crédits, dates, séances)
+ * à des objets ViewModel et Model, et gère également les validations et la logique
+ * de présentation côté utilisateur.
+ *
+ * FXML : Planif-view.fxml
+ */
 public class CoursController implements Initializable {
 
     public CoursController() {
         // no-arg constructor
     }
+    // === TABLE VIEW & COLONNES ===
 
+    /** TableView contenant les cours affichés à l'utilisateur. */
     @FXML private TableView<CoursViewModel> listeCours;
+    // === TABLE VIEW & COLONNES ===
 
+    /** TableView contenant les cours affichés à l'utilisateur. */
     @FXML private TableColumn<CoursViewModel, String> nameCours;
+    /** Colonne du nombre de crédits. */
     @FXML private TableColumn<CoursViewModel, Integer> nbCredits;
+    /** Colonne du nombre de crédits. */
     @FXML private TableColumn<CoursViewModel, LocalDate> dateDebut;
+    /** Colonne de la date de fin du cours. */
     @FXML private TableColumn<CoursViewModel, LocalDate> dateFin;
 
+    // === COLONNES DE SÉANCES (JOUR, HEURE DE DÉBUT ET DE FIN) ===
     @FXML private TableColumn<CoursViewModel, DayOfWeek> jour1;
     @FXML private TableColumn<CoursViewModel, LocalTime> tempsDebut1;
     @FXML private TableColumn<CoursViewModel, LocalTime> tempsFin1;
@@ -45,6 +64,7 @@ public class CoursController implements Initializable {
     @FXML private TableColumn<CoursViewModel, LocalTime> tempsDebut3;
     @FXML private TableColumn<CoursViewModel, LocalTime> tempsFin3;
 
+    // === FORMULAIRES D'AJOUT ===
     @FXML private TextField nomCoursAjout;
     @FXML private ComboBox<Integer> nbCreditsAjout;
     @FXML private DatePicker dateDebutAjout;
@@ -67,10 +87,15 @@ public class CoursController implements Initializable {
     @FXML private HBox ajoutSeance1;
     @FXML private HBox ajoutSeance2;
     @FXML private HBox ajoutSeance3;
-
+    /** Liste observable contenant tous les cours affichés dans la TableView. */
     @FXML
     private final ObservableList<CoursViewModel> maListeCours = FXCollections.observableArrayList();
 
+    /**
+     * Initialise le contrôleur après le chargement de son FXML.
+     * Configure les éléments de l'interface (ComboBoxes, CellFactories, etc.)
+     * et lie les données du modèle aux colonnes de la TableView.
+     */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         // Enable editing
@@ -312,7 +337,12 @@ public class CoursController implements Initializable {
         tempsFinSeance3Ajout.setItems(horaires);
     }
 
-    public class DatePickerCell<T> extends TableCell<T, LocalDate> {
+    /**
+     * Cellule personnalisée pour permettre l'édition de dates dans un TableView avec un DatePicker.
+     *
+     * @param <T> Le type de l'objet de ligne.
+     */
+    public static class DatePickerCell<T> extends TableCell<T, LocalDate> {
         private final DatePicker datePicker = new DatePicker();
 
         public DatePickerCell() {
@@ -334,7 +364,12 @@ public class CoursController implements Initializable {
         }
     }
 
-    public class TimePickerCell<T> extends TableCell<T, LocalTime> {
+    /**
+     * Cellule personnalisée pour permettre l'édition d'heures dans un TableView avec un ComboBox.
+     *
+     * @param <T> Le type de l'objet de ligne.
+     */
+    public static class TimePickerCell<T> extends TableCell<T, LocalTime> {
         private final ComboBox<LocalTime> comboBox = new ComboBox<>();
 
         public TimePickerCell() {
@@ -373,6 +408,12 @@ public class CoursController implements Initializable {
         }
     }
 
+    /**
+     * Supprime un cours sélectionné après confirmation.
+     * Retire à la fois de la TableView et du modèle de données (CoursListe).
+     *
+     * @param actionEvent l'événement généré par le clic sur le bouton de suppression.
+     */
     public void onDeleteSelectedClick(ActionEvent actionEvent) {
         CoursViewModel selectedVM = listeCours.getSelectionModel().getSelectedItem();
 
@@ -403,13 +444,24 @@ public class CoursController implements Initializable {
     }
 
 
-
+    /**
+     * Active ou désactive dynamiquement les champs de saisie de séances selon le nombre sélectionné.
+     *
+     * @param actionEvent l'événement généré lors du changement du ComboBox nbSeances.
+     */
     public void onSelectNumSeances(ActionEvent actionEvent) {
         Integer count = nbSeances.getValue();
         ajoutSeance2.setDisable(count < 2);
         ajoutSeance3.setDisable(count < 3);
     }
 
+    /**
+     * Traite l'ajout d'un cours en validant les champs saisis par l'utilisateur.
+     * Vérifie notamment que les dates et les heures sont valides avant d'ajouter
+     * le cours à la TableView et au modèle de données.
+     *
+     * @param actionEvent l'événement généré par le bouton d'ajout.
+     */
     public void onAjoutCoursClick(ActionEvent actionEvent) {
 
         try {
@@ -473,6 +525,9 @@ public class CoursController implements Initializable {
         }
     }
 
+    /**
+     * Réinitialise tous les champs du formulaire après l'ajout d'un cours.
+     */
     public void clearForm() {
         nbSeances.getSelectionModel().clearSelection();
         ajoutSeance2.setDisable(true);

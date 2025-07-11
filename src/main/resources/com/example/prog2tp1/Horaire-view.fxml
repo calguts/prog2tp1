@@ -7,6 +7,11 @@
 <?import javafx.scene.layout.*?>
 
 <?import javafx.geometry.Insets?>
+<!--
+  FXML file: Horaire-view.fxml
+  Décrit l’interface ou l'utilisateur peut generer
+  un horaire et le visualiser sous forme de tableau.
+-->
 <AnchorPane xmlns="http://javafx.com/javafx"
             xmlns:fx="http://javafx.com/fxml"
             fx:controller="com.example.prog2tp1.HoraireController"

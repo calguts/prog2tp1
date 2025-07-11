@@ -5,6 +5,11 @@
 <?import javafx.scene.layout.VBox?>
 
 <?import javafx.scene.control.Button?>
+
+<!--
+  FXML file: Planif-view.fxml
+  Décrit l’interface utilisateur principale. Sert de menu.
+-->
 <VBox alignment="CENTER" spacing="20.0" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.prog2tp1.PlanifController">
     <padding>

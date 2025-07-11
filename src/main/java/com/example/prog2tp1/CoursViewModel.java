@@ -6,17 +6,26 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.LinkedList;
 
+/**
+ * Classe de type ViewModel utilisée pour faire le lien entre le modèle {@link CoursClasse}
+ * et l’interface graphique JavaFX via des {@code Property}.
+ *
+ * Cette classe permet à la TableView d’afficher les attributs modifiables du cours,
+ * et de répercuter les changements faits dans la vue vers le modèle sous-jacent.
+ *
+ * Elle gère jusqu’à trois séances (jour, heure de début, heure de fin) par cours.
+ */
 public class CoursViewModel {
 
+    /** Modèle de données original associé à ce ViewModel. */
     private CoursClasse model;
 
-    // JavaFX properties for UI binding
+    // === Propriétés JavaFX pour lier à l'interface graphique ===
     private final StringProperty nomCours = new SimpleStringProperty();
     private final IntegerProperty nbCredits = new SimpleIntegerProperty();
     private final ObjectProperty<LocalDate> dateDebutCours = new SimpleObjectProperty<>();
     private final ObjectProperty<LocalDate> dateFinCours = new SimpleObjectProperty<>();
 
-    // Three seances max, as per your logic
     private final ObjectProperty<DayOfWeek> jour1 = new SimpleObjectProperty<>();
     private final ObjectProperty<LocalTime> debut1 = new SimpleObjectProperty<>();
     private final ObjectProperty<LocalTime> fin1 = new SimpleObjectProperty<>();
@@ -29,6 +38,12 @@ public class CoursViewModel {
     private final ObjectProperty<LocalTime> debut3 = new SimpleObjectProperty<>();
     private final ObjectProperty<LocalTime> fin3 = new SimpleObjectProperty<>();
 
+    /**
+     * Constructeur qui initialise les propriétés à partir du modèle {@link CoursClasse}
+     * et établit des écouteurs pour synchroniser les modifications vers le modèle.
+     *
+     * @param model instance de {@code CoursClasse} à représenter dans la vue
+     */
     public CoursViewModel(CoursClasse model) {
         this.model = model;
 
@@ -56,22 +71,30 @@ public class CoursViewModel {
             fin3.set(seances.get(2).getFinTimeSection());
         }
 
-        // Optional: bind changes back to model if you want live syncing
+        // Synchronisation modèle <— vue
         nomCours.addListener((obs, old, val) -> model.setNomCours(val));
         nbCredits.addListener((obs, old, val) -> model.setNbCredits(val.intValue()));
         dateDebutCours.addListener((obs, old, val) -> model.setDateDebutCours(val));
         dateFinCours.addListener((obs, old, val) -> model.setDateFinCours(val));
     }
 
+    /**
+     * Change le modèle associé à ce ViewModel.
+     * @param model nouvelle instance de {@code CoursClasse}
+     */
     public void setCoursViewModel(CoursClasse model) {
         this.model = model;
     }
 
+    /**
+     * Change le modèle associé à ce ViewModel.
+     * @param model nouvelle instance de {@code CoursClasse}
+     */
     public CoursClasse getModel() {
         return model;
     }
 
-    // Getters for JavaFX properties — for TableView or FXML
+    // === Getters pour les propriétés JavaFX (pour FXML/TableView) ===
     public StringProperty nomCoursProperty() { return nomCours; }
     public IntegerProperty nbCreditsProperty() { return nbCredits; }
     public ObjectProperty<LocalDate> dateDebutCoursProperty() { return dateDebutCours; }
