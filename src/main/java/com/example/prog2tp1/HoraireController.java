@@ -5,6 +5,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -13,6 +14,8 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 
 /**
@@ -79,25 +82,28 @@ public abstract class HoraireController  implements Initializable {
 
         Integer sessionCredits = nbCreditsSession.getValue();
 
-        /*CoursListe.addCoursListe(newCours);
-        maListeCours.add(new CoursViewModel(newCours));
-        clearForm(); */
+        if(sessionCredits != null) {
+            ArrayList<CoursClasse> horaire = HoraireSession.getInstance().gererMonHoraire(sessionCredits);
 
+            if(!horaire.isEmpty()) {
+                ObservableList<SeanceViewModel> flatList = FXCollections.observableArrayList();
 
-        // Flatten all seances from all courses
-        /*ObservableList<SeanceViewModel> flatList = FXCollections.observableArrayList();
-        for (CoursClasse cours : ListeCours.getInstance().getCours()) {
-            if (cours.getSeance1().isActive()) flatList.add(new SeanceViewModel(cours, cours.getSeance1()));
-            if (cours.getSeance2().isActive()) flatList.add(new SeanceViewModel(cours, cours.getSeance2()));
-            if (cours.getSeance3().isActive()) flatList.add(new SeanceViewModel(cours, cours.getSeance3()));
+                for (CoursClasse cours : horaire) {
+                    for (SeanceClass seance : cours.getHoraireCours()) {
+                        if (seance.getJour() != null) {
+                            flatList.add(new SeanceViewModel(cours, seance));
+                        }
+                    }
+                }
+                flatList.sort(Comparator.comparing((SeanceViewModel s) -> s.jourProperty().get()).thenComparing(s -> s.debutProperty().get()));
+                listeCoursH.setItems(flatList);
+            } else{
+                Alert warning = new Alert(Alert.AlertType.WARNING);
+                warning.setTitle("Aucun horaire trouvé");
+                warning.setHeaderText("Aucun horaire respectant les conditions n'a pu être trouvé.");
+                warning.setContentText("Veuillez réessayer en changeant le nombre de crédits à prendre ou en modifiant la liste des cours.");
+                warning.showAndWait();
+            }
         }
-
-        // Sort by day and time
-        flatList.sort(Comparator
-                .comparing((SeanceViewModel s) -> s.jourProperty().get())
-                .thenComparing(s -> s.debutProperty().get()));
-
-        listeCoursH.setItems(flatList);*/
-
     }
 }
